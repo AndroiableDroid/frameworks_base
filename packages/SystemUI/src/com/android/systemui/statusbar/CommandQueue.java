@@ -89,6 +89,7 @@ public class CommandQueue extends IStatusBar.Stub {
     private static final int MSG_SET_TOP_APP_HIDES_STATUS_BAR  = 41 << MSG_SHIFT;
     private static final int MSG_TOGGLE_NAVIGATION_EDITOR      = 42 << MSG_SHIFT;
     private static final int MSG_DISPATCH_NAVIGATION_EDITOR_RESULTS = 43 << MSG_SHIFT;
+    private static final int MSG_TOGGLE_NAVIGATION_BAR         = 44 << MSG_SHIFT;
 
     public static final int FLAG_EXCLUDE_NONE = 0;
     public static final int FLAG_EXCLUDE_SEARCH_PANEL = 1 << 0;
@@ -157,6 +158,7 @@ public class CommandQueue extends IStatusBar.Stub {
         default void toggleFlashlight() {}
         default void toggleNavigationEditor() {}
         default void dispatchNavigationEditorResults(Intent intent) {}
+        default void toggleNavigationBar(boolean enable) { }
     }
 
     @VisibleForTesting
@@ -516,6 +518,13 @@ public class CommandQueue extends IStatusBar.Stub {
         synchronized (mLock) {
             mHandler.removeMessages(MSG_TOGGLE_CAMERA_FLASH);
             mHandler.sendEmptyMessage(MSG_TOGGLE_CAMERA_FLASH);
+	}
+    }
+
+    public void toggleNavigationBar(boolean enable) {
+        synchronized (mLock) {
+            mHandler.removeMessages(MSG_TOGGLE_NAVIGATION_BAR);
+            mHandler.obtainMessage(MSG_TOGGLE_NAVIGATION_BAR, enable ? 1 : 0, 0, null).sendToTarget();
         }
     }
 
@@ -744,6 +753,9 @@ public class CommandQueue extends IStatusBar.Stub {
                     Intent intent = (Intent) msg.obj;
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).dispatchNavigationEditorResults(intent);
+                case MSG_TOGGLE_NAVIGATION_BAR:
+                    for (int i = 0; i < mCallbacks.size(); i++) {
+                        mCallbacks.get(i).toggleNavigationBar(msg.arg1 != 0);
                     }
                     break;
             }
