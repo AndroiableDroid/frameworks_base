@@ -64,4 +64,11 @@
   <java-symbol type="bool" name="config_FastChargingLedSupported" />
   <java-symbol type="integer" name="config_notificationsFastBatteryARGB" />
 
+  <!-- Screen pinning exit mode -->
+  <java-symbol type="integer" name="config_screenPinningExitMode" />
+  <java-symbol type="string" name="lock_to_app_toast_back" />
+  <java-symbol type="string" name="lock_to_app_toast_power" />
+  <java-symbol type="string" name="lock_to_app_toast_back_nav_visible" />
+  <java-symbol type="string" name="lock_to_app_toast_power_nav_visible" />
+
 </resources>
