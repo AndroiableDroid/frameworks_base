@@ -63,4 +63,7 @@
   <java-symbol type="color" name="screen_pinning_toast_light_background_color" />
   <java-symbol type="color" name="screen_pinning_toast_light_text_color" />
 
+  <!-- Whether the device requires overlays to be in /system/overlay -->
+  <java-symbol type="bool" name="config_hasSystemOverlayPath" />
+
 </resources>
