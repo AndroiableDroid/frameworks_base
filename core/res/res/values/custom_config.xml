@@ -43,4 +43,7 @@
     -->
     <integer name="config_screenPinningExitMode">0</integer>
 
+    <!-- Whether navigation bar can be disabled (for devices with hardware keys) -->
+    <bool name="config_canDisableNavigationBar">false</bool>
+
 </resources>
