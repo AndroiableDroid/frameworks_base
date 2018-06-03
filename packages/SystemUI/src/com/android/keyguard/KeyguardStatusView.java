@@ -514,4 +514,18 @@ public class KeyguardStatusView extends GridLayout {
         }
         refreshTime();
     }
+
+    private boolean isDozeMode() {
+        IDreamManager dreamManager = getDreamManager();
+        PowerManager pm = (PowerManager) getContext().getSystemService(Context.POWER_SERVICE);
+        try {
+            //noinspection deprecation
+            if (dreamManager != null && dreamManager.isDozing() && pm != null && !pm.isScreenOn()) {
+                return true;
+            }
+        } catch (RemoteException e) {
+            return false;
+        }
+        return false;
+    }
 }
