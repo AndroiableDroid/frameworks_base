@@ -2614,10 +2614,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         } else if ("0".equals(navBarOverride)) {
             mNavBarOverride = false;
         }
-        mHasNavigationBar = !mNavBarOverride && Settings.Secure.getIntForUser(
-                mContext.getContentResolver(), Settings.Secure.NAVIGATION_BAR_ENABLED,
-                res.getBoolean(com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0,
-                UserHandle.USER_CURRENT) == 1;
 
         // For demo purposes, allow the rotation of the HDMI display to be controlled.
         // By default, HDMI locks rotation to landscape.
@@ -2783,17 +2779,6 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             updateNavigationBarSize();
 
-            mHasNavigationBar = !mNavBarOverride && Settings.Secure.getIntForUser(
-                    resolver, Settings.Secure.NAVIGATION_BAR_ENABLED,
-                    mContext.getResources().getBoolean(
-                    com.android.internal.R.bool.config_showNavigationBar) ? 1 : 0,
-                    UserHandle.USER_CURRENT) == 1;
-            IStatusBarService sbar = getStatusBarService();
-            if (sbar != null) {
-                try {
-                    sbar.toggleNavigationBar(mHasNavigationBar);
-                } catch (RemoteException e1) {}
-            }
         }
 
         synchronized (mWindowManagerFuncs.getWindowManagerLock()) {

@@ -170,11 +170,6 @@ public class BatteryMeterView extends LinearLayout implements
                 mStyle == BatteryMeterDrawableBase.BATTERY_STYLE_HIDDEN;
     }
 
-    private boolean isHiddenButQsOrKeyguard() {
-        return mQsHeaderOrKeyguard &&
-                mStyle == BatteryMeterDrawableBase.BATTERY_STYLE_HIDDEN;
-    }
-
     @Override
     public boolean hasOverlappingRendering() {
         return false;

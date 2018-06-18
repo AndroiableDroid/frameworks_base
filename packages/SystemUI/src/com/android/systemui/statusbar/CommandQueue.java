@@ -753,6 +753,8 @@ public class CommandQueue extends IStatusBar.Stub {
                     Intent intent = (Intent) msg.obj;
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).dispatchNavigationEditorResults(intent);
+		    }
+		    break;
                 case MSG_TOGGLE_NAVIGATION_BAR:
                     for (int i = 0; i < mCallbacks.size(); i++) {
                         mCallbacks.get(i).toggleNavigationBar(msg.arg1 != 0);
