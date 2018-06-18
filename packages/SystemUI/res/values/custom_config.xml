@@ -32,4 +32,7 @@
         adb_network,weather,pip,screenshot,caffeine,headsup,screenrecord,keydisable,navbardisable,assist,voiceassist,google,sync
     </string>
 
+    <!-- Allow Opa (Pixel navbar) layout -->
+    <bool name="config_allowOpaLayout">true</bool>
+
 </resources>

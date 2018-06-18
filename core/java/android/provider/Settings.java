@@ -4764,6 +4764,12 @@ public final class Settings {
         public static final String SCREENSHOT_EDIT_USER_APP = "screenshot_edit_user_app";
 
         /**
+         * Hide lockscreen icon
+         * @hide
+         */
+        public static final String HIDE_LOCKSCREEN_ICON = "hide_lockscreen_icon";
+
+        /**
          * Enable blocking wakelock
          * @hide
          */
@@ -4872,6 +4878,27 @@ public final class Settings {
          * @hide
          */
         public static final String SHOW_FOURG_ICON = "show_fourg_icon";
+
+        /**
+         * Change quick settings tiles animation style
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_STYLE = "anim_tile_style";
+
+        /**
+         * Change quick settings tiles animation duration
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_DURATION = "anim_tile_duration";
+
+        /**
+         * Change quick settings tiles interpolator
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_INTERPOLATOR = "anim_tile_interpolator";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -5143,6 +5170,7 @@ public final class Settings {
             PRIVATE_SETTINGS.add(BATTERY_LIGHT_FULL_COLOR);
             PRIVATE_SETTINGS.add(BATTERY_LIGHT_REALLY_FULL_COLOR);
             PRIVATE_SETTINGS.add(VOLUME_LINK_NOTIFICATION);
+            PRIVATE_SETTINGS.add(HIDE_LOCKSCREEN_ICON);
         }
 
         /**
@@ -5792,7 +5820,7 @@ public final class Settings {
             }
             return sNameValueCache.putStringForUser(resolver, name, value, tag,
                     makeDefault, userHandle);
-        }
+}
 
         /**
          * Store a name/value pair into the database.
@@ -8478,6 +8506,12 @@ public final class Settings {
          * @hide
          */
         public static final String NOTIFICATION_BADGING = "notification_badging";
+
+        /**
+         * Whether to enable navigation bar
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_ENABLED = "navigation_bar_enabled";
 
         /**
          * Comma separated list of QS tiles that have been auto-added already.
@@ -12755,3 +12789,4 @@ public final class Settings {
         return packages[0];
     }
 }
+

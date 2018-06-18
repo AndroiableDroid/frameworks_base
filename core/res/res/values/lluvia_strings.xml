@@ -27,4 +27,11 @@
     <string name="config_pocketBridgeSysfsInpocket"></string>
 
     <string name="app_blacklist">Blacklist app</string>
+
+    <!-- Screen pinning exit mode -->
+    <string name="lock_to_app_toast_back">To unpin this screen, touch and hold Back button</string>
+    <string name="lock_to_app_toast_power">To unpin this screen, touch and hold Power button</string>
+    <string name="lock_to_app_toast_back_nav_visible">To unpin this screen, touch and hold Back button or touch and hold Back and Overview on the navigation bar</string>
+    <string name="lock_to_app_toast_power_nav_visible">To unpin this screen, touch and hold Power button or touch and hold Back and Overview on the navigation bar</string>
+
 </resources>

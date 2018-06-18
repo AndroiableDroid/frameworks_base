@@ -36,4 +36,14 @@
     <string-array name="config_vendorPlatformSignatures">
     </string-array>
 
+    <!-- Screen pinning exit mode
+        0 - Navigation bar (default behavior)
+        1 - Long press back button
+        2 - Long press power button
+    -->
+    <integer name="config_screenPinningExitMode">0</integer>
+
+    <!-- Whether navigation bar can be disabled (for devices with hardware keys) -->
+    <bool name="config_canDisableNavigationBar">false</bool>
+
 </resources>

@@ -125,6 +125,7 @@ import static android.view.WindowManagerPolicy.WindowManagerFuncs.LID_OPEN;
 import android.annotation.Nullable;
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.ActivityManagerNative;
 import android.app.ActivityManager.StackId;
 import android.app.ActivityManagerInternal;
 import android.app.ActivityManagerInternal.SleepToken;
@@ -491,6 +492,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     int[] mNavigationBarWidthForRotationDefault = new int[4];
     int[] mNavigationBarHeightForRotationInCarMode = new int[4];
     int[] mNavigationBarWidthForRotationInCarMode = new int[4];
+    private boolean mNavBarOverride;
 
     private LongSparseArray<IShortcutService> mShortcutKeyServices = new LongSparseArray<>();
 
@@ -1131,6 +1133,10 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.Secure.getUriFor(
+                    Settings.Secure.NAVIGATION_BAR_ENABLED), false, this,
+                    UserHandle.USER_ALL);
+
             updateSettings();
         }
 
@@ -1728,6 +1734,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     private void powerLongPress() {
         int behavior = getResolvedLongPressOnPowerBehavior();
+        if (getScreenPinningExitMode() == 2 && isScreenOn()) {
+            mPowerKeyHandled = true;
+            exitScreenPinningMode();
+            return;
+        }
         switch (behavior) {
         case LONG_PRESS_POWER_NOTHING:
             break;
@@ -1774,6 +1785,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     private void backLongPress() {
         mBackKeyHandled = true;
 
+        if (getScreenPinningExitMode() == 1 && isScreenOn()) {
+            exitScreenPinningMode();
+            return;
+        }
+
         switch (mLongPressOnBackBehavior) {
             case LONG_PRESS_BACK_NOTHING:
                 break;
@@ -1786,6 +1802,25 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     startActivityAsUser(intent, UserHandle.CURRENT_OR_SELF);
                 }
                 break;
+        }
+    }
+
+    private int getScreenPinningExitMode() {
+        try {
+            if (!ActivityManagerNative.getDefault().isInLockTaskMode()) {
+                return -1;
+            }
+        } catch (RemoteException e) {
+            // ignore
+        }
+        return mContext.getResources().getInteger(com.android.internal.R.integer.config_screenPinningExitMode);
+    }
+
+    private void exitScreenPinningMode() {
+        try {
+            ActivityManagerNative.getDefault().stopSystemLockTaskMode();
+        } catch (RemoteException e) {
+            // ignore
         }
     }
 
@@ -2570,6 +2605,15 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
         // Allow the navigation bar to move on non-square small devices (phones).
         mNavigationBarCanMove = width != height && shortSizeDp < 600;
+
+        // Allow a system property to override this. Used by the emulator.
+        // See also hasNavigationBar().
+        String navBarOverride = SystemProperties.get("qemu.hw.mainkeys");
+        if ("1".equals(navBarOverride)) {
+            mNavBarOverride = true;
+        } else if ("0".equals(navBarOverride)) {
+            mNavBarOverride = false;
+        }
 
         // For demo purposes, allow the rotation of the HDMI display to be controlled.
         // By default, HDMI locks rotation to landscape.
